@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todoList.css">
+    <title>Todo List</title>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Todo List</h1>
+    </header>
+    <section>
+
+        <div class="container">
+            <form class="add-section">
+                <input type="text" placeholder="New task name">
+                <button id="btnAdd">Add</button>
+                <p id="message"></p>
+            </form>
+            
+            <div class="content">
+                <ul>
+                    <li>
+                        <input type="checkbox"  id="check" class="check">
+                        <h3> Lorem ipsum dolor sit amet consectetur</h3>
+                        <div class="btns">
+                            <button class="buttondelete" id="btndelete">Delete</button>
+                            <button class="buttonedit" id="btnedit">Edit</button>
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox"  id="check" class="check">
+                        <h3> Lorem ipsum dolor </h3>
+                        <div class="btns">
+                            <button class="buttondelete" id="btndelete">Delete</button>
+                            <button class="buttonedit" id="btnedit">Edit</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const btnAdd = document.querySelector('#btnAdd');
+        const InputValue = document.querySelector('.add-section input');
+        const addSection = document.querySelector('.add-section');
+        const ul = document.querySelector('ul');
+        const li = document.querySelector('li');
+
+        addSection.addEventListener('submit',add);
+        function add(e){
+            e.preventDefault();
+            if(!InputValue.value==''){
+                //console.log(InputValue.value);
+                //create li
+                const createLi = document.createElement('li');
+                //create input
+                const createInput = document.createElement('input');
+                createInput.type='checkbox';
+                createInput.id='check';
+                createInput.className='check';
+                //create h3 + add values
+                const createH3 = document.createElement('h3');
+                const text = document.createTextNode(InputValue.value);
+
+                createH3.appendChild(text);
+                
+                //append
+                createLi.appendChild(createInput);
+                createLi.appendChild(createH3);
+
+
+
+                //create div btns
+                const createDiv = document.createElement('div');
+                createDiv.className='btns';
+                //create btn delete
+                const createButtonDelete = document.createElement('button');
+                createButtonDelete.id='btndelete';
+                createButtonDelete.className='buttondelete';
+                createButtonDelete.appendChild(document.createTextNode('Delete'));
+                //create btn Edit
+                const createButtonEdit = document.createElement('button');
+                createButtonEdit.id='btnedit';
+                createButtonEdit.className='buttonedit';
+                createButtonEdit.appendChild(document.createTextNode('Edit'));
+                //append this btns to div
+                createDiv.appendChild(createButtonDelete);
+                createDiv.appendChild(createButtonEdit);
+                //
+                createLi.appendChild(createDiv);
+                ul.appendChild(createLi);
+
+                //delete value in Input
+                InputValue.value='';
+             }
+             console.error();
+        }
+
+
+        //Delete / Edit buttons
+        //const btndelete = document.querySelectorAll('#btndelete');
+        //const li = document.querySelector(li);
+        ul.addEventListener('click',Buttons);
+        function Buttons(e){
+            if(e.target.classList.contains('buttondelete'))
+            {
+                //Delete button***
+                if(confirm('Are you sure !')){
+                const ss = e.target.parentElement.parentElement;
+                ul.removeChild(ss);
+                }
+            }
+            else if(e.target.classList.contains('buttonedit')){  
+                //Edit button***
+                if(InputValue.value==''){         
+                    const text = e.target.parentElement.parentElement.children[1].textContent;
+                    const ss = e.target.parentElement.parentElement;
+                    ul.removeChild(ss);           
+                    InputValue.value=text;
+                }else{
+                    const message = document.querySelector('#message');
+                    message.innerHTML='Please clear this form 👆';
+                    message.style.color='red';
+                    setTimeout(() => {
+                        message.remove();
+                    }, 3000);
+                }
+            }
+            else if(e.target.classList.contains('check')){
+                //Checked erea
+                    const h3 = e.target.parentElement.children[1];
+                if(e.target.checked){
+                    h3.id='lineThrough';
+                } else {                  
+                    h3.removeAttribute('id'); 
+                }
+
+            }
+        }
+        
+    </script>
+</body>
+</html>
